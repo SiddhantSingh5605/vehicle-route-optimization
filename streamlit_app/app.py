@@ -18,12 +18,12 @@ import streamlit as st
 # ----------------------------------------------------------------------------
 # Page config
 # ----------------------------------------------------------------------------
-st.set_page_config(page_title="VRP Optimizer — Genetic Algorithm", page_icon="🧬", layout="wide")
+st.set_page_config(page_title="VRP Optimizer — Genetic Algorithm", page_icon="None", layout="wide")
 
-st.title("🧬 Vehicle Route Optimization using Genetic Algorithm")
+st.title("Vehicle Route Optimization using Genetic Algorithm")
 st.caption("Soft Computing Techniques — Mini Project")
 
-with st.expander("ℹ️ About this project", expanded=False):
+with st.expander("About this project", expanded=False):
     st.markdown(
         """
 This app solves a **Vehicle Route Optimization** problem (a Traveling Salesman Problem)
@@ -138,7 +138,7 @@ def genetic_algorithm(coords, pop_size, generations, elite_size, mutation_rate, 
 # ----------------------------------------------------------------------------
 # Sidebar — GA hyperparameters
 # ----------------------------------------------------------------------------
-st.sidebar.header("⚙️ Genetic Algorithm Settings")
+st.sidebar.header("Genetic Algorithm Settings")
 pop_size = st.sidebar.slider("Population size", 20, 500, 150, step=10)
 generations = st.sidebar.slider("Generations", 50, 1000, 300, step=10)
 elite_size = st.sidebar.slider("Elite size", 1, 50, 15, step=1)
@@ -152,7 +152,7 @@ st.sidebar.caption("Built for Soft Computing Techniques mini-project · Colab ba
 # ----------------------------------------------------------------------------
 # Location input
 # ----------------------------------------------------------------------------
-st.subheader("📍 Step 1 — Enter Your Locations")
+st.subheader("Step 1 — Enter Your Locations")
 
 default_data = pd.DataFrame(
     {
@@ -168,7 +168,7 @@ if "locations_df" not in st.session_state:
 col1, col2 = st.columns([3, 1])
 with col2:
     rand_n = st.number_input("Random count", min_value=3, max_value=25, value=8, key="rand_n", label_visibility="collapsed")
-    if st.button("🎲 Generate random locations", use_container_width=True):
+    if st.button("Generate random locations", use_container_width=True):
         rand_names = [chr(65 + i) if i < 26 else f"L{i}" for i in range(rand_n)]
         rng = np.random.default_rng()
         st.session_state.locations_df = pd.DataFrame(
@@ -178,7 +178,7 @@ with col2:
                 "Y": rng.uniform(0, 10, rand_n).round(2),
             }
         )
-    if st.button("🔄 Reset to sample data", use_container_width=True):
+    if st.button("Reset to sample data", use_container_width=True):
         st.session_state.locations_df = default_data.copy()
 
 st.caption("Add, edit, or delete rows below. Coordinates can be any consistent unit (km, grid units, etc.)")
@@ -200,7 +200,7 @@ clean_df = edited_df.dropna()
 clean_df = clean_df[clean_df["Name"].astype(str).str.strip() != ""]
 
 st.markdown("---")
-st.subheader("🚀 Step 2 — Optimize the Route")
+st.subheader("Step 2 — Optimize the Route")
 
 run_col1, run_col2 = st.columns([1, 3])
 with run_col1:
@@ -254,10 +254,10 @@ if "result" in st.session_state:
     route_names = [names[i] for i in best_route] + [names[best_route[0]]]
 
     st.success(f"**Optimal route found!**  Total distance: **{best_distance:.3f}** units")
-    st.markdown("### 🧭 Optimal Route Order")
+    st.markdown("### Optimal Route Order")
     st.markdown(" → ".join(f"**{n}**" for n in route_names))
 
-    tab1, tab2, tab3 = st.tabs(["🗺️ Route Map", "📈 Convergence Curve", "📋 Data Table"])
+    tab1, tab2, tab3 = st.tabs(["Route Map", "Convergence Curve", "Data Table"])
 
     with tab1:
         tour_coords = coords[best_route + [best_route[0]]]
